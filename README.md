@@ -13,7 +13,7 @@ conda activate blender_proc
 ## Run Commands :rocket:	
 
 ```
-bash scripts/pose_exp
+bash scripts/pose_exp PATH_TO_CAD_models
 ```
 
 [conda]: https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
