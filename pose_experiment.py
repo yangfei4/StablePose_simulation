@@ -126,4 +126,4 @@ if __name__== "__main__":
         Rot_mat = np.array(Rot_mat)
         print('#'*80)
         print(f"The Rot_mat of {catogory} is \n", Rot_mat )
-        np.savez_compressed(args.output_dir + catogory, Rotation = Rot_mat)
+        np.savez_compressed(args.output_dir + '/' + catogory, Rotation = Rot_mat)
