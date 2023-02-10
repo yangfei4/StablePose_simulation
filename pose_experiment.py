@@ -8,7 +8,8 @@ from pathlib import Path
 from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
-parser.add_argument('tag_board', default="./CAD_model/tagboard_21x21x1cm.obj",help="Path to the object file containing the bin, should be examples/advanced/physics_convex_decomposition/bin.obj.")
+parser.add_argument('cad_models', default="./CAD_model/models",help="Path to the object file containing USB type-c components.")
+parser.add_argument('tag_board', default="./CAD_model/tagboard_21x21x1cm.obj",help="Path to the object file containing the tagboard.")
 parser.add_argument('output_dir', nargs='?', default="./pose_exp/", help="Path to where the final files will be saved ")
 args = parser.parse_args()
 bproc.init()
@@ -67,59 +68,62 @@ def sample_pose(obj: bproc.types.MeshObject):
     obj.set_rotation_euler(bproc.sampler.uniformSO3())
 
 
-## Save final pose for three parts seperately, 
-## which means every round only simulates with one type part
-parts = ['mainshell', 'topshell', 'insert_mold']
 
-# For each part(mainshell, topshell, or insert_mold)
-# The number of samples = part_num * iter
-part_num = 30
-iter = 500
+if __name__== "__main__":
+    ## Save final pose for three parts seperately, 
+    ## which means every round only simulates with one type part
+    parts = ['mainshell', 'topshell', 'insert_mold']
 
-for obj in Path("./CAD_model/models").rglob('*.obj'):
-# for obj in Path("./CAD_model/UT1113").rglob('*.obj'):
-    if 'background' in obj.name:
-        continue
+    # For each part(mainshell, topshell, or insert_mold)
+    # The number of samples = part_num * iter
+    part_num = 30
+    iter = 500
 
-    Rot_mat = []
-    Z_offset = []
-    catogory = obj.name[:-4]
+    for obj in Path(args.cad_models).rglob('*.obj'):
+    # for obj in Path("./CAD_model/UT1113").rglob('*.obj'):
+        if 'background' in obj.name:
+            continue
 
-    ## mainshell or topshell or insert_mol
-    ## each scene contains 10 parts
-    for i in tqdm(range(iter)):
-        pipeline_init()
-        obj_queue = []
-    
-        for _ in range(part_num):
-            obj_queue.append(bproc.loader.load_obj(str(obj)).pop())
-    
-        # Sample the poses of all usb objects, while making sure that no objects collide with each other.
-        bproc.object.sample_poses(
-            obj_queue,
-            sample_pose_func=sample_pose
-        )
+        Rot_mat = []
+        catogory = obj.name[:-4]
 
-        ###############################################################
-        # Physical simulation settings
-        ###############################################################
-        for part in obj_queue:
-            part.enable_rigidbody(active=True, collision_shape="CONVEX_HULL", mass=0.1)
+        ## mainshell or topshell or insert_mol
+        ## each scene contains 10 parts
+        for i in tqdm(range(iter)):
+            pipeline_init()
+            obj_queue = []
+        
+            for _ in range(part_num):
+                obj_queue.append(bproc.loader.load_obj(str(obj)).pop())
+        
+            # Sample the poses of all usb objects, while making sure that no objects collide with each other.
+            bproc.object.sample_poses(
+                obj_queue,
+                sample_pose_func=sample_pose
+            )
 
-        # Simulation time
-        bproc.object.simulate_physics_and_fix_final_poses(
-        min_simulation_time=0.2,
-        max_simulation_time=10,
-        check_object_interval=1
-        )
+            ###############################################################
+            # Physical simulation settings
+            ###############################################################
+            # This defalt collision shape is Convex_Hull. 
+            # It turns out the experiment results with convex_hull are same as reuslts with decomposed obj.
+            for part in obj_queue:
+                part.enable_rigidbody(active=True, collision_shape="CONVEX_HULL", mass=0.1)
 
-        for part in obj_queue:
-            part_pose = part.get_local2world_mat()
-            Rot_mat.append(part_pose[0:3, 0:3])
+            # Simulation time
+            bproc.object.simulate_physics_and_fix_final_poses(
+            min_simulation_time=0.2,
+            max_simulation_time=10,
+            check_object_interval=1
+            )
 
-        bproc.clean_up(clean_up_camera=True)
+            for part in obj_queue:
+                part_pose = part.get_local2world_mat()
+                Rot_mat.append(part_pose[0:3, 0:3])
 
-    Rot_mat = np.array(Rot_mat)
-    print('#'*80)
-    print(f"The Rot_mat of {catogory} is \n", Rot_mat )
-    np.savez_compressed(args.output_dir + catogory, Rotation = Rot_mat)
+            bproc.clean_up(clean_up_camera=True)
+
+        Rot_mat = np.array(Rot_mat)
+        print('#'*80)
+        print(f"The Rot_mat of {catogory} is \n", Rot_mat )
+        np.savez_compressed(args.output_dir + catogory, Rotation = Rot_mat)
