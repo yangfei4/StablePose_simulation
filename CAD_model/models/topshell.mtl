@@ -1,0 +1,12 @@
+# Blender 3.4.1 MTL File: 'topshell.blend'
+# www.blender.org
+
+newmtl Metallic_Reflection
+Ns 516.615967
+Ka 1.000000 1.000000 1.000000
+Kd 0.421060 0.421060 0.421060
+Ks 0.800000 0.800000 0.800000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
