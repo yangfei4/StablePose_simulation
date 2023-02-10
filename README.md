@@ -2,8 +2,8 @@
 This repo aims to collect stable pose candidates for a given CAD models.
 
 *NOTE:* Mass centers of objects have great impact on this experiment. In `Blender_proc2`, the definition of mass center is same as origin point of `.obj` file.
-However, the origin point of `.obj` file is usually set to the center of the geometry, which is not mathching with real mass center. 
-So, please make sure you have checked/updated the mass center of your `.obj` file before running the experiment. You may get the correct mass center information from original `.STP` files. 
+However, the origin point of `.obj` file is usually set to the center of the geometry by default, which is not mathching with real mass center. 
+So, please make sure you have checked/updated the mass center of your `.obj` files before running the experiment. You may get the correct mass center information from original `.STP` files or other ways.
 
 
 ## Environment :atom:
