@@ -11,7 +11,7 @@ So, please make sure you have checked/updated the mass center of your `.obj` fil
 *The following instructions assume that you have [anaconda][conda] installed and configured*
 
 ```
-conda env create -f env.yml
+conda env create -f environment.yml
 conda activate blender_proc
 ```
 
