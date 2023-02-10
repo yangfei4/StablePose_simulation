@@ -10,6 +10,10 @@ conda env create -f env.yml
 conda activate blender_proc
 ```
 
+## Run Commands :rocket:	
 
+```
+bash scripts/pose_exp
+```
 
 [conda]: https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
