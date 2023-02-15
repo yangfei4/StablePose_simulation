@@ -26,4 +26,6 @@ E.g.:  `bash scripts/pose_exp ./CAD_model/models ./pose_exp`
 ## Results processing :floppy_disk:
 Please follow the guidline in [save_pose.ipynb](https://github.com/yangfei4/StablePose_simulation/blob/main/save_pose.ipynb).
 
+![](./simulation_demo.gif)
+
 [conda]: https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
