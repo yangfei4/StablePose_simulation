@@ -26,7 +26,7 @@ E.g.:  `bash scripts/pose_exp ./CAD_model/models ./pose_exp`
 ## Results processing :floppy_disk:
 Please follow the guidline in [save_pose.ipynb](https://github.com/yangfei4/StablePose_simulation/blob/main/save_pose.ipynb).
 
-## Render simulation process
+## Render simulation process :film_projector:	
 Run the following script:
 ```
 bash scripts/render_sim PATH/TO/CAD/MODELS PATH/TO/OUTPUT/DIR
@@ -35,7 +35,7 @@ E.g.:  `bash scripts/render_sim ./CAD_model/models ./pose_exp`
 After running above command, a set of rendered images will be save in your output dictionary.
 In sample script, we rendered first 20 frames of the simulation process as 20 .png images.
 
-## Generate video from rendered images
+## Generate video from rendered images  :vhs:	
 ```
 python generate_video.py PATH/TO/IMAGES
 ```
