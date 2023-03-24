@@ -1,0 +1,2 @@
+#!/bin/bash
+blenderproc run simulation_demo.py ${1:-./CAD_model/models} "./CAD_model/tagboard_21x21x1cm.obj" ${2:-/pose_exp}
