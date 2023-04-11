@@ -22,20 +22,19 @@ def pipeline_init():
     ###############################################################
     # Set the camera pose same as world frame, located in origin
     ###############################################################
-    cam_k = np.array([[21627.734375, 0, 2353.100109], 
-                      [0, 21643.369141, 1917.666411],
-                      [0, 0, 1]])
-    W, H = int(5472), int(3648)
+    cam_k = np.array([[1908.56, 0,       720], 
+                  [0,       1909.06, 720],
+                  [0,       0,       1]])
+    W, H = int(1440), int(1440)
     bproc.camera.set_resolution(W, H)
     bproc.camera.set_intrinsics_from_K_matrix(cam_k, W, H)
     
     cam_pose = np.array([[1, 0, 0,  0],
                         [0, 1, 0,  0],
-                        [0, 0, 1,  2],
+                        [0, 0, 1,  0.5],
                         [0, 0, 0,  1]])
 
     bproc.camera.add_camera_pose(cam_pose)
-    cam_R = cam_pose[0:3, 0:3]
 
     ###############################################################
     # Define a point light
@@ -127,7 +126,7 @@ if __name__== "__main__":
     bproc.renderer.set_max_amount_of_samples(50)
     bproc.renderer.set_noise_threshold(1)
     bproc.renderer.set_cpu_threads(0)
-    # activate normal rendering
+
     bproc.renderer.enable_normals_output()
     bproc.renderer.enable_segmentation_output(map_by=["instance", "class", "name"])
     data = bproc.renderer.render()
