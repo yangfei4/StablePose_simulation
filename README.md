@@ -27,6 +27,10 @@ bash scripts/pose_exp PATH/TO/CAD/MODELS PATH/TO/OUTPUT/DIR
 ```
 E.g.:  `bash scripts/pose_exp ./CAD_model/models ./pose_exp`
 
+## Generate Quaternion poses list
+```bash
+blenderproc run generate_stable_poses.py ./CAD_model/models ./CAD_model/tagboard_21x21x1cm.obj ./pose_exp
+```
 ## Results processing :floppy_disk:
 Please follow the guidline in [save_pose.ipynb](https://urldefense.com/v3/__https://github.com/yangfei4/StablePose_simulation/blob/main/save_pose.ipynb__;!!DZ3fjg!-o-pKfulG6fhaTC2n8gX67C3nUFhSSwKGefaxhrYf74ze2Fsd0hnjrn-daN_jPA3OSyHLGbPpfjrknHlBKZ8SGlDibOc$ ).
 
